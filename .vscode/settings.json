@@ -1,0 +1,8 @@
+{
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.formatOnSave": true,
+    "prettier.tabWidth": 1,
+    "prettier.printWidth": 100,
+    "prettier.useTabs": true,
+    "vetur.format.defaultFormatter.ts": "prettier-tslint"
+}
