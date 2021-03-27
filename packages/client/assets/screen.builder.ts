@@ -1,22 +1,32 @@
 import Blessed from 'blessed';
 
-interface IComponents {
+export interface IComponents {
 	screen: Blessed.Widgets.Screen;
 	input: Blessed.Widgets.InputElement;
+	chat: Blessed.Widgets.ListElement;
+	activityLog: Blessed.Widgets.ListElement;
+	status: Blessed.Widgets.ListElement;
 }
 
 export class ScreenBuilder {
 	private screen: Blessed.Widgets.Screen;
 	private layout: Blessed.Widgets.LayoutElement;
 	private input: Blessed.Widgets.InputElement;
-	// @ts-ignore
 	private chat: Blessed.Widgets.ListElement;
+	private status: Blessed.Widgets.ListElement;
+	private activityLog: Blessed.Widgets.ListElement;
 
 	constructor() {
 		this.screen = Blessed.screen({ title: 'starting...' });
 		this.layout = Blessed.layout({ height: '100%', width: '100%', layout: 'inline' });
 		this.input = Blessed.textarea();
 		this.chat = Blessed.list({
+			parent: this.layout,
+		});
+		this.status = Blessed.list({
+			parent: this.layout,
+		});
+		this.activityLog = Blessed.list({
 			parent: this.layout,
 		});
 	}
@@ -101,10 +111,35 @@ export class ScreenBuilder {
 		this.chat = Blessed.list({
 			...this.basecomponent,
 			parent: this.layout,
-			align: 'center',
+			align: 'left',
 			width: '50%',
 			height: '90%',
-			items: [`Message`],
+			items: [`Chat`],
+		});
+
+		return this;
+	}
+
+	setStatusComponent(): ScreenBuilder {
+		this.status = Blessed.list({
+			...this.basecomponent,
+			parent: this.layout,
+			width: '25%',
+			height: '90%',
+			items: [`Users on room`],
+		});
+
+		return this;
+	}
+
+	setActivityLog(): ScreenBuilder {
+		this.activityLog = Blessed.list({
+			...this.basecomponent,
+			parent: this.layout,
+			width: '25%',
+			height: '90%',
+			bg: 'yellow',
+			items: [`Activities`],
 		});
 
 		return this;
@@ -114,6 +149,9 @@ export class ScreenBuilder {
 		const components = {
 			screen: this.screen,
 			input: this.input,
+			chat: this.chat,
+			activityLog: this.activityLog,
+			status: this.status,
 		};
 
 		return components;
